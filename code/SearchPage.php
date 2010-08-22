@@ -6,10 +6,39 @@ class SearchPage extends Page {
    		'ProvideComments' => false,
 		'ShowInMenus' => false
 	);
-	static $has_one = array(
-	);
-
+	
+	function requireDefaultRecords() {
+		parent::requireDefaultRecords();
+		if(!DataObject::get_one('SearchPage')) {
+			$searchPage = new SearchPage();
+			$searchPage->Title = 'Search results';
+			$searchPage->URLSegment = 'search';
+			$searchPage->Status = 'Published';
+			$searchPage->ShowInMenus = 0;
+			$searchPage->ShowInSearch = 0;
+			$searchPage->write();
+			$searchPage->publish("Stage", "Live");	
+			Database::alteration_message('Search page created','created');
+		}
+	}
+	public function canCreate($member = null){
+	   $rights = parent::canCreate($member);
+	   if($rights == false)
+	      return false;
+	   //allow SearchPage to be created only once   
+	   $dobj = DataObject::get('SearchPage');
+	   if(!$dobj)
+	      return true;
+	      
+	   return $dobj->Count() == 0;
+	}
+	function getCMSFields() {
+		$fields = parent::getCMSFields();
+		$fields->removeFieldFromTab('Root.Content.Metadata','URL');
+		return $fields;
+	}
 }
+
 class SearchPage_Controller extends Page_Controller {
 	function Results($data = null, $form = null){
 		if ($data && $form) {
@@ -21,25 +50,8 @@ class SearchPage_Controller extends Page_Controller {
 		}
 	}
 	function SearchForm() {
-		$searchText = isset($_REQUEST['Search']) ? $_REQUEST['Search'] : ''; 
-
-		$fields = new FieldSet (
-			new TextField('Search', '', $searchText)
-		);
-		$actions = new FieldSet(
-			new FormAction('Results', _t('SearchForm.SEARCH', 'Search'))
-		);
-		$SearchForm = new SearchForm($this, 'SearchForm', $fields, $actions);
-		$SearchForm->setFormAction('search/SearchForm');
-		$SearchForm->classesToSearch  = array('SiteTree');
-		$SearchForm->getValidator()->setJavascriptValidationHandler('none');
-		return $SearchForm;
+		return SearchFormExtension::SearchForm();
 	}
 }
-class SeachPageControllerExtension extends DataObjectDecorator {
-	function SearchForm() {
-		return SearchPage_Controller::SearchForm();
-	}
-}
-DataObject::add_extension('Page', 'SeachPageControllerExtension');
+//Page_Controller::$allowed_actions = array('SearchForm');
 ?>
