@@ -53,5 +53,5 @@ class SearchPage_Controller extends Page_Controller {
 		return SearchFormExtension::SearchForm();
 	}
 }
-//Page_Controller::$allowed_actions = array('SearchForm');
+Page_Controller::$allowed_actions = array('SearchForm');
 ?>
