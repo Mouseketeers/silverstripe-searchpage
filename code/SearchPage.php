@@ -1,5 +1,5 @@
 <?php
-class SearchPage extends Page {
+class SearchPage extends SiteTree {
 	static $db = array(
 	);
 	static $defaults = array(
