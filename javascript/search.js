@@ -2,16 +2,17 @@
 	$(document).ready(function() {
 		var inlineLabel = '$InlineLabel';
 		$('input.nolabel').each(function() {
+			if($(this).val() != inlineLabel) $(this).addClass('nonDefaultValue');
 			$(this).focus(function() {
 				if($(this).val() == inlineLabel) {
 					$(this).val('');
-					$(this).toggleClass('nonDefaultValue');
+					$(this).addClass('nonDefaultValue');
 				}
 			});
 			$(this).blur(function() {
 				if($(this).val() == '') {
 					$(this).val(inlineLabel);
-					$(this).toggleClass('nonDefaultValue');
+					$(this).removeClass('nonDefaultValue');
 				}
 			});
 		});
@@ -22,6 +23,5 @@
 				}
 			}
 		);
-	
 	});
 })(jQuery);
