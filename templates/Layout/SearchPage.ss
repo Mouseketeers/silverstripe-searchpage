@@ -1,9 +1,9 @@
-<div id="ContentArea" class="column grid_9">
+<div id="ContentArea" class="column grid_6">
 	<h1>$Title</h1>
 	$Content
 	<p id="SearchForm">$SearchForm</p>
 	<% if Results %>
-		<p class="searchQuery"><strong>Din søgning på &quot;{$Query}&quot; gav $Results.Count resultater. Viser side $Results.CurrentPage af $Results.TotalPages.</strong></p>
+		<p class="searchQuery">Din søgning på &quot;{$Query}&quot; gav $Results.totalSize resultater. Viser side $Results.CurrentPage af $Results.TotalPages.</p>
 			<ul id="SearchResults">
 	 			<% control Results %>
 	    		<li>
@@ -17,7 +17,7 @@
 					<% if MetaDescription %>
 					$MetaDescription
 					<% else %>
-					<p>$Content.LimitWordCountXML</p>
+					<p>$Content.FirstParagraph</p>
 					<% end_if %>
 	    		</li>
 				<% end_control %>
@@ -28,17 +28,17 @@
 	<% if Results.MoreThanOnePage %>
 		<div id="Pagination">
 			<% if Results.NotFirstPage %>
-	        <a id="Prev" href="$Results.PrevLink"><< Forrige</a>
+			<span id="Prev"><a href="$Results.PrevLink">< Forrige</a></span>
 			<% end_if %>
 	        <% control Results.Pages %>
 	        <% if CurrentBool %>
-			<span class="PageNum" id="Current">$PageNum</span>
+			<span class="pageNum" id="Current">$PageNum</span>
 			<% else %>
-			<span class="PageNum"><a href="$Link">$PageNum</a></span>
+			<span class="pageNum"><a href="$Link">$PageNum</a></span>
 			<% end_if %>
 	        <% end_control %>
 			<% if Results.NotLastPage %>
-			<a id="Next" href="$Results.NextLink">Næste >></a>
+			<span id="Next"><a id="Next" href="$Results.NextLink">Næste ></a></span>
 			<% end_if %>
 		</div>
 	<% end_if %>

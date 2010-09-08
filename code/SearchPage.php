@@ -51,6 +51,7 @@ class SearchPage_Controller extends Page_Controller {
 	}
 	function SearchForm() {
 		return SearchFormExtension::SearchForm();
+		//return new CustomSearch($this, "SearchForm", $fields, $actions);
 	}
 }
 Page_Controller::$allowed_actions = array('SearchForm');

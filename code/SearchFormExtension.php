@@ -16,6 +16,7 @@ class SearchFormExtension extends Extension {
 			new FormAction('Results', _t('SearchForm.SEARCH', 'Search'))
 		);
 		$SearchForm = new SearchForm($this, 'SearchForm', $fields, $actions);
+		//todo: use custom searchform that includes MetaDescription - return new CustomSearch($this, "SearchForm", $fields, $actions);
 		$SearchForm->setFormAction('search/SearchForm');
 		$SearchForm->classesToSearch  = array('SiteTree');
 		$SearchForm->getValidator()->setJavascriptValidationHandler('none');
