@@ -1,5 +1,5 @@
 <?php
-class SearchPage extends Page {
+class SearchPage extends SiteTree {
 	static $db = array(
 	);
 	static $defaults = array(
@@ -18,7 +18,7 @@ class SearchPage extends Page {
 			$searchPage->ShowInSearch = 0;
 			$searchPage->write();
 			$searchPage->publish("Stage", "Live");	
-			Database::alteration_message('Search page created','created');
+			//Database::alteration_message('Search page created','created');
 		}
 	}
 	public function canCreate($member = null){
@@ -54,5 +54,4 @@ class SearchPage_Controller extends Page_Controller {
 		//return new CustomSearch($this, "SearchForm", $fields, $actions);
 	}
 }
-Page_Controller::$allowed_actions = array('SearchForm');
-?>
+ContentController::$allowed_actions = array('SearchForm');
