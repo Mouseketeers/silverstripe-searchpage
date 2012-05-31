@@ -1,6 +1,6 @@
 <?php 
 class SearchFormExtension extends Extension {
-	static $useInlineLabel = true;
+	public static $useInlineLabel = true;
 	function SearchForm() {
 		$inlineLabel = (self::$useInlineLabel) ? _t('Search.INLINELABEL', 'Enter search') : '';
 		Requirements::javascript('jsparty/jquery/jquery-packed.js');
