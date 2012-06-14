@@ -1,6 +1,7 @@
 <?php 
 class SearchFormExtension extends Extension {
 	public static $useInlineLabel = true;
+	public static $buttonLabel = '';
 	function SearchForm() {
 		$inlineLabel = (self::$useInlineLabel) ? _t('Search.INLINELABEL', 'Enter search') : '';
 		Requirements::javascript('jsparty/jquery/jquery-packed.js');
@@ -13,7 +14,7 @@ class SearchFormExtension extends Extension {
 			$searchField
 		);
 		$actions = new FieldSet(
-			new FormAction('Results', _t('SearchForm.SEARCH', 'Search'))
+			new FormAction('Results', self::$buttonLabel ? self::$buttonLabel : _t('SearchForm.SEARCH', 'Search'))
 		);
 		$SearchForm = new SearchForm($this, 'SearchForm', $fields, $actions);
 		//todo: use custom searchform that includes MetaDescription - return new CustomSearch($this, "SearchForm", $fields, $actions);
