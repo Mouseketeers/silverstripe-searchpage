@@ -6,7 +6,6 @@ class SearchPage extends SiteTree {
    		'ProvideComments' => false,
 		'ShowInMenus' => false
 	);
-	
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
 		if(!DataObject::get_one('SearchPage')) {
@@ -22,14 +21,14 @@ class SearchPage extends SiteTree {
 		}
 	}
 	public function canCreate($member = null){
+	   //allow SearchPage to be created only once
 	   $rights = parent::canCreate($member);
 	   if($rights == false)
 	      return false;
-	   //allow SearchPage to be created only once   
+
 	   $dobj = DataObject::get('SearchPage');
 	   if(!$dobj)
-	      return true;
-	      
+	      return true;	
 	   return $dobj->Count() == 0;
 	}
 	function getCMSFields() {
