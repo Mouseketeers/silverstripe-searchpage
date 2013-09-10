@@ -1,47 +1,40 @@
-<div id="ContentArea" class="column grid_6">
-	<h1>$Title</h1>
-	$Content
-	<p id="SearchForm">$SearchForm</p>
-	<% if Results %>
-		<p class="searchQuery">Din søgning på &quot;{$Query}&quot; gav $Results.totalSize resultater. Viser side $Results.CurrentPage af $Results.TotalPages.</p>
-			<ul id="SearchResults">
-	 			<% control Results %>
-	    		<li>
-					<a class="searchResultHeader" href="$Link">
-					<% if MenuTitle %>
-					$MenuTitle
-					<% else %>
-					$Title
-					<% end_if %>
-					</a>
-					<% if MetaDescription %>
-					$MetaDescription
-					<% else %>
-					<p>$Content.FirstParagraph</p>
-					<% end_if %>
-	    		</li>
+<div class="row typography">
+	<div class="eight columns">
+		<h1>$Title</h1>
+		$Content
+		<div class="search-page-form">$SearchForm</div>
+		<% if Results %>
+		<ul id="search-results">
+			<% control Results %>
+			<li>
+				<a href="$Link"><strong>$Title</strong></a>
+				<% if MetaDescription %>
+				<p>$MetaDescription</p>
+				<% else %>
+				<p>$Content.Summary(50)</p>
+				<% end_if %>
+			</li>
+			<% end_control %>
+		</ul>
+		<% else %>
+		<p><strong><% _t('Search.NoResults','Your search gave no results.') %></strong></p>
+		<% end_if %>
+		<% if Results.MoreThanOnePage %>
+			<ul class="pagination hide-on-print">
+				<% if Results.NotFirstPage %>
+				<li><a href="$Results.PrevLink"><</a></li>
+				<% end_if %>
+				<% control Results.Pages %>
+				<% if CurrentBool %>
+				<li class="current"><a href="$Link">$PageNum</a></li>
+				<% else %>
+				<li><a href="$Link">$PageNum</a></li>
+				<% end_if %>
 				<% end_control %>
+				<% if Results.NotLastPage %>
+				<li><a href="$Results.NextLink">></a></li>
+				<% end_if %>
 			</ul>
-	<% else %>
-	<p><strong>Din søgning gav desværre ingen resultater.</strong></p>
-	<% end_if %>
-	<% if Results.MoreThanOnePage %>
-		<div id="Pagination">
-			<% if Results.NotFirstPage %>
-			<span id="Prev"><a href="$Results.PrevLink">< Forrige</a></span>
-			<% end_if %>
-	        <% control Results.Pages %>
-	        <% if CurrentBool %>
-			<span class="pageNum" id="Current">$PageNum</span>
-			<% else %>
-			<span class="pageNum"><a href="$Link">$PageNum</a></span>
-			<% end_if %>
-	        <% end_control %>
-			<% if Results.NotLastPage %>
-			<span id="Next"><a id="Next" href="$Results.NextLink">Næste ></a></span>
-			<% end_if %>
-		</div>
-	<% end_if %>
+		<% end_if %>
+	</div>
 </div>
-
-
