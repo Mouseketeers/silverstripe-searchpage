@@ -4,7 +4,7 @@ class SearchFormExtension extends Extension {
 	public static $buttonLabel = '';
 	function SearchForm() {
 		$inlineLabel = (self::$useInlineLabel) ? _t('Search.InlineLabel', 'Enter search...') : '';
-		Requirements::javascript('jsparty/jquery/jquery-packed.js');
+		//Requirements::javascript('jsparty/jquery/jquery-packed.js');
 		Requirements::javascriptTemplate('search/javascript/search.js', array('InlineLabel' => $inlineLabel));
 		$searchText = isset($_REQUEST['Search']) ? $_REQUEST['Search'] : '';
 		$searcFieldValue = $searchText ? $searchText : $inlineLabel;
