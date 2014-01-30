@@ -3,8 +3,8 @@ class SearchFormExtension extends Extension {
 	public static $useInlineLabel = true;
 	public static $buttonLabel = '';
 	function SearchForm() {
-		$inlineLabel = (self::$useInlineLabel) ? _t('Search.INLINELABEL', 'Enter search') : '';
-		Requirements::javascript('jsparty/jquery/jquery-packed.js');
+		$inlineLabel = (self::$useInlineLabel) ? _t('Search.InlineLabel', 'Enter search...') : '';
+		//Requirements::javascript('jsparty/jquery/jquery-packed.js');
 		Requirements::javascriptTemplate('search/javascript/search.js', array('InlineLabel' => $inlineLabel));
 		$searchText = isset($_REQUEST['Search']) ? $_REQUEST['Search'] : '';
 		$searcFieldValue = $searchText ? $searchText : $inlineLabel;
@@ -18,7 +18,14 @@ class SearchFormExtension extends Extension {
 		);
 		$SearchForm = new SearchForm($this, 'SearchForm', $fields, $actions);
 		//todo: use custom searchform that includes MetaDescription - return new CustomSearch($this, "SearchForm", $fields, $actions);
-		$SearchForm->setFormAction('search/SearchForm');
+		if(Translatable::is_enabled()) {
+			$locale = Translatable::get_current_locale();
+			$search_page = Translatable::get_one_by_locale('SearchPage', $locale);
+			$search_page_url = $search_page->URLSegment;
+		}
+		else $search_page_url = 'search';
+
+		$SearchForm->setFormAction($search_page_url.'/SearchForm');
 		$SearchForm->classesToSearch  = array('SiteTree');
 		$SearchForm->getValidator()->setJavascriptValidationHandler('none');
 		return $SearchForm;
