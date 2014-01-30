@@ -6,7 +6,9 @@ class SearchPage extends SiteTree {
    		'ProvideComments' => false,
 		'ShowInMenus' => false
 	);
-	
+	public static $default_results_sort = 'Relevance';
+	public static $default_results_sort_direction = '';
+
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
 		if(!DataObject::get_one('SearchPage')) {
@@ -18,7 +20,6 @@ class SearchPage extends SiteTree {
 			$searchPage->ShowInSearch = 0;
 			$searchPage->write();
 			$searchPage->publish("Stage", "Live");	
-			//Database::alteration_message('Search page created','created');
 		}
 	}
 	public function canCreate($member = null){
@@ -37,6 +38,18 @@ class SearchPage extends SiteTree {
 		$fields->removeFieldFromTab('Root.Content.Metadata','URL');
 		return $fields;
 	}
+	function setDefaultResultsSort($sort) {
+		self::$default_results_sort = $sort;
+	}
+	function setDefaultResultsSortDirection($direction) {
+		self::$default_results_sort_direction = $direction;
+	}
+	function getDefaultResultsSort() {
+		return self::$default_results_sort;
+	}
+	function getDefaultResultsSortDirection() {
+		return self::$default_results_sort_direction;
+	}
 }
 
 class SearchPage_Controller extends Page_Controller {
@@ -46,12 +59,16 @@ class SearchPage_Controller extends Page_Controller {
 				'Results' => $form->getResults(),
 				'Query' => $form->getSearchQuery()
 			);
+			$default_results_sort = $this->getDefaultResultsSort();
+			$default_results_sort_direction = $this->getDefaultResultsSortDirection();
+			if($default_results_sort != 'Relevance') {
+				$data['Results']->sort($default_results_sort, $default_results_sort_direction);				
+			}
 			return $data;
 		}
 	}
 	function SearchForm() {
 		return SearchFormExtension::SearchForm();
-		//return new CustomSearch($this, "SearchForm", $fields, $actions);
 	}
 }
 ContentController::$allowed_actions = array('SearchForm');
