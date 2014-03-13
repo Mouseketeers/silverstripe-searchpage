@@ -21,7 +21,12 @@ class SearchFormExtension extends Extension {
 		if(Translatable::is_enabled()) {
 			$locale = Translatable::get_current_locale();
 			$search_page = Translatable::get_one_by_locale('SearchPage', $locale);
-			$search_page_url = $search_page->URLSegment;
+			if($search_page) {
+				$search_page_url = $search_page->URLSegment;
+			}
+			else {
+				return false;
+			}
 		}
 		else $search_page_url = 'search';
 
