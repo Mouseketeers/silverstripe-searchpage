@@ -4,7 +4,8 @@ class SearchPage extends SiteTree {
 	);
 	static $defaults = array(
    		'ProvideComments' => false,
-		'ShowInMenus' => false
+		'ShowInMenus' => false,
+		'ShowInSearch' => false
 	);
 	public static $default_results_sort = 'Relevance';
 	public static $default_results_sort_direction = '';
@@ -22,17 +23,17 @@ class SearchPage extends SiteTree {
 			$searchPage->publish("Stage", "Live");	
 		}
 	}
-	public function canCreate($member = null){
-	   $rights = parent::canCreate($member);
-	   if($rights == false)
-	      return false;
-	   //allow SearchPage to be created only once   
-	   $dobj = DataObject::get('SearchPage');
-	   if(!$dobj)
-	      return true;
+	// public function canCreate($member = null){
+	//    $rights = parent::canCreate($member);
+	//    if($rights == false)
+	//       return false;
+	//    //allow SearchPage to be created only once   
+	//    $dobj = DataObject::get('SearchPage');
+	//    if(!$dobj)
+	//       return true;
 	      
-	   return $dobj->Count() == 0;
-	}
+	//    return $dobj->Count() == 0;
+	// }
 	function getCMSFields() {
 		$fields = parent::getCMSFields();
 		$fields->removeFieldFromTab('Root.Content.Metadata','URL');
